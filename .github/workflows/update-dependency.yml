@@ -1,0 +1,39 @@
+name: Create PR to update dependency
+
+on:
+  repository_dispatch:
+    types: [trigger] # Repository dispatch é uma forma de iniciar o workflow através de um event_type que outro repositório (ou POST da API) acione-o
+
+jobs:
+  create-and-update:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20.x
+        cache: npm
+        cache-dependency-path: package-lock.json
+
+    - run: npm ci
+
+    - name: Update Typescript to latest version
+      run: npm i typescript@latest # @latest obtém a versão mais recente da dependência
+
+    - name: Create a new branch
+      run: |
+        git checkout -b update/dependency-${{ github.run_id }}
+      # O nome da branch é update/dependency- seguido do ID do run do GitHub Actions
+
+    - name: Commit and push changes
+      run: |
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        git add .
+        git commit -m "Atualiza pacote"
+        git push origin HEAD
+
+    - name: Create a Pull Request
+      run: gh pr create --title "Update dependency to latest version" --body "Atualiza dependência para versão atual" --label "enhancement" --assignee "lucasgianine" --base main --head update/dependency-${{ github.run_id }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
