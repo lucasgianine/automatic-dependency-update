@@ -1,0 +1,14 @@
+{
+  "name": "automatic-dependency-update",
+  "version": "1.0.0",
+  "description": "Using GitHub Actions to update dependency",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "lucasgianine",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^5.4.0"
+  }
+}
