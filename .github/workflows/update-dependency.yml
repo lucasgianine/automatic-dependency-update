@@ -35,5 +35,6 @@ jobs:
 
     - name: Create a Pull Request
       run: gh pr create --title "Update dependency to latest version" --body "Atualiza dependência para versão atual" --label "enhancement" --assignee "lucasgianine" --base main --head update/dependency-${{ github.run_id }}
+      # Altere os respectivos dados acima, principalmente o "assignee"
       env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.USER_TOKEN }}
